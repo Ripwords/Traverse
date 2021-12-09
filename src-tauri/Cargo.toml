@@ -1,10 +1,10 @@
 [package]
 name = "app"
-version = "0.2.0"
-description = "A Tauri App"
-authors = ["you"]
+version = "0.3.0"
+description = "A transparent notepad like app"
+authors = ["Ripwords"]
 license = ""
-repository = ""
+repository = "https://github.com/Ripwords/window-reader"
 default-run = "app"
 edition = "2018"
 build = "src/build.rs"

@@ -11,6 +11,12 @@ const settings = ref(false)
 const theme = ref('dark')
 const themeColor = ref(0)
 
+const themeOverrides = {
+  common: {
+    primaryColor: '#8a8a8a'
+  }
+}
+
 const changeTheme = () => {
   themeColor.value = theme.value === 'dark' ? 255 : 0
   theme.value = theme.value === 'dark' ? 'light' : 'dark'
@@ -41,11 +47,11 @@ watch(fontSize, () => {
   }">
     <div v-show="settings" class="absolute w-8/10 h-20px bottom-175px transform translate-x-5vh">
       <n-h2 class="text-dark-900 dark:text-light-50">Opacity</n-h2>
-      <n-slider v-model:value="opacity" :step="1"></n-slider>
+      <n-slider :theme-overrides="themeOverrides" v-model:value="opacity" :step="1"></n-slider>
     </div>
     <div v-show="settings" class="absolute w-8/10 h-20px bottom-80px transform translate-x-5vh">
       <n-h2 class="text-dark-900 dark:text-light-50">Font Size</n-h2>
-      <n-slider v-model:value="fontSize" :step="1"></n-slider>
+      <n-slider :theme-overrides="themeOverrides" v-model:value="fontSize" :step="1"></n-slider>
     </div>
     <n-tooltip placement="top-start" trigger="hover">
       <template #trigger>
