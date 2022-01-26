@@ -71,15 +71,23 @@ watch(fontSize, () => {
       </template>
       Always-on-top
     </n-tooltip>
-    <textarea class="text-dark-900 dark:text-light-50 w-100vw h-100vh p-5" ref="text" spellcheck="false" @click="settings = false"></textarea>
+    <div contenteditable="true" id="textarea" class="text-dark-900 dark:text-light-50 w-100vw h-100vh p-5" ref="text" spellcheck="false" @click="settings = false"></div>
   </div>
 </template>
 
 <style>
 html {
-  overflow: scroll;
+  overflow: auto;
   overflow-x: hidden;
 }
+
+#textarea {
+    -moz-appearance: textfield-multiline;
+    -webkit-appearance: textarea;
+    overflow: auto;
+    resize: both;
+}
+
 ::-webkit-scrollbar {
   width: 0;  /* Remove scrollbar space */
   background: transparent;  /* Optional: just make scrollbar invisible */
