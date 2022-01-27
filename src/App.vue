@@ -81,32 +81,43 @@ watch([opacity, theme], () => {
     <button class="ql-link"></button>
     <button class="ql-clean"></button>
   </div>
-  <div :class="{
+  <div 
+    :class="{
       'dark': theme === 'dark',
-    }">
+    }"
+  >
     <div v-show="settings" class="absolute z-10 w-8/10 h-20px bottom-100px transform translate-x-5vh">
       <n-h2 class="text-dark-900 dark:text-light-50">Opacity</n-h2>
       <n-slider :theme-overrides="themeOverrides" v-model:value="opacity" :step="1"></n-slider>
     </div>
     <n-tooltip placement="top-start" trigger="hover">
       <template #trigger>
-        <i-ri:settings-3-line class="fixed z-10 right-10px bottom-15px text-size-35px text-dark-900 dark:text-light-50" @click="settings = !settings" />
+        <i-mdi:arrow-top-left-thin-circle-outline 
+          class="fixed z-10 right-10px bottom-135px text-size-35px transition-colors duration-150 ease-linear" 
+          :class="{ 
+            'text-green-500': alwaysTop, 
+            'text-dark-900': !alwaysTop, 
+            'dark:text-light-50': !alwaysTop, 
+            'dark:text-green-500': alwaysTop 
+          }" 
+          @click="changeAlwaysTop()"
+        />
       </template>
-      Settings
+      Always-on-top
     </n-tooltip>
     <n-tooltip placement="top-start" trigger="hover">
       <template #trigger>
-        <i-mdi:theme-light-dark class="fixed z-10 right-10px bottom-75px text-size-35px text-dark-900 dark:text-light-50" @click="changeTheme()" />
+        <i-mdi:theme-light-dark class="fixed z-10 right-10px bottom-75px text-size-35px text-dark-900 dark:text-light-50 transition-colors duration-150 ease-linear" @click="changeTheme()" />
       </template>
       Theme
     </n-tooltip>
     <n-tooltip placement="top-start" trigger="hover">
       <template #trigger>
-        <i-mdi:arrow-top-left-thin-circle-outline class="fixed z-10 right-10px bottom-135px text-size-35px text-dark-900 dark:text-light-50" @click="changeAlwaysTop()" />
+        <i-ri:settings-3-line class="fixed z-10 right-10px bottom-15px text-size-35px text-dark-900 dark:text-light-50 transition-colors duration-150 ease-linear" @click="settings = !settings" />
       </template>
-      Always-on-top
+      Settings
     </n-tooltip>
-    <div ref="text" class="relative h-100vh text-dark-900 dark:text-light-50" @click="settings = false">
+    <div ref="text" class="relative h-100vh text-dark-900 dark:text-light-50 transition-colors duration-150 ease-linear" @click="settings = false">
       <QuillEditor toolbar="#toolbar" spellcheck="false"></QuillEditor>
     </div>
   </div>
