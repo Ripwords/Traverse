@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { QuillEditor } from '@vueup/vue-quill'
+import { QuillEditor, Delta } from '@vueup/vue-quill'
 import { appWindow } from '@tauri-apps/api/window'
 import { mainStore } from './store'
 import '@vueup/vue-quill/dist/vue-quill.snow.css'
@@ -38,10 +38,6 @@ onMounted(() => {
 
 watch([opacity, theme], () => {
   text.value.style.backgroundColor = `rgba(${themeColor.value}, ${themeColor.value}, ${themeColor.value}, ${opacity.value / 100})`
-})
-
-watch(() => store.content, () => {
-  console.log(store.content)
 })
 </script>
 
@@ -124,7 +120,7 @@ watch(() => store.content, () => {
       Settings
     </n-tooltip>
     <div ref="text" class="relative h-100vh text-dark-900 dark:text-light-50 transition-colors duration-150 ease-linear" @click="settings = false">
-      <QuillEditor toolbar="#toolbar" spellcheck="false" v-model:content="store.content"></QuillEditor>
+      <QuillEditor toolbar="#toolbar" spellcheck="false" v-model:content="store.content.ops"></QuillEditor>
     </div>
   </div>
 </template>
