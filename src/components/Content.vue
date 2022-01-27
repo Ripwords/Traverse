@@ -84,6 +84,8 @@ appWindow.listen("tauri://blur", () => {
 appWindow.listen("tauri://focus", () => {
   shortcutRegister()
 })
+
+shortcutRegister()
 </script>
 
 <template>
