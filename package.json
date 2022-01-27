@@ -1,6 +1,6 @@
 {
   "name": "window-reader",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "scripts": {
     "dev": "concurrently -k \"vite\" \"tauri dev\"",
     "build": "vue-tsc --noEmit && vite build && tauri build"
@@ -9,6 +9,7 @@
     "@tauri-apps/api": "^1.0.0-beta.8",
     "@vueup/vue-quill": "^1.0.0-beta.7",
     "@vueuse/core": "^6.9.1",
+    "pinia": "^2.0.9",
     "vue": "^3.2.16"
   },
   "devDependencies": {

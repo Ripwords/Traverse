@@ -1,10 +1,12 @@
 <script lang="ts" setup>
 import { QuillEditor } from '@vueup/vue-quill'
 import { appWindow } from '@tauri-apps/api/window'
+import { mainStore } from './store'
 import '@vueup/vue-quill/dist/vue-quill.snow.css'
 
 appWindow.setDecorations(true)
 
+const store = mainStore()
 const alwaysTop = ref(false)
 const opacity = ref(50)
 const text = ref<any>(null)
@@ -36,6 +38,10 @@ onMounted(() => {
 
 watch([opacity, theme], () => {
   text.value.style.backgroundColor = `rgba(${themeColor.value}, ${themeColor.value}, ${themeColor.value}, ${opacity.value / 100})`
+})
+
+watch(() => store.content, () => {
+  console.log(store.content)
 })
 </script>
 
@@ -118,7 +124,7 @@ watch([opacity, theme], () => {
       Settings
     </n-tooltip>
     <div ref="text" class="relative h-100vh text-dark-900 dark:text-light-50 transition-colors duration-150 ease-linear" @click="settings = false">
-      <QuillEditor toolbar="#toolbar" spellcheck="false"></QuillEditor>
+      <QuillEditor toolbar="#toolbar" spellcheck="false" v-model:content="store.content"></QuillEditor>
     </div>
   </div>
 </template>
