@@ -1,11 +1,11 @@
 [package]
-name = "app"
-version = "1.0.3"
+name = "window_reader"
+version = "1.1.0"
 description = "A transparent notepad like app"
 authors = ["Ripwords"]
 license = ""
 repository = "https://github.com/Ripwords/window-reader"
-default-run = "app"
+default-run = "window_reader"
 edition = "2018"
 build = "src/build.rs"
 
