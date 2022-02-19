@@ -17,21 +17,24 @@ const text = ref<any>(null)
 const settings = ref(false)
 const theme = ref('dark')
 const themeColor = ref(0)
+const exportName = ref('export')
 const toolbar = ref<any>(null)
-const showModal = ref(false)
+const shortcutModal = ref(false)
+const exportModal_1 = ref(false)
+const exportModal_2 = ref(false)
 const message = useMessage()
 
 const shortcutRegister = async () => {
   if (!(await isRegistered('ctrl+shift+s'))) {
     await register('ctrl+shift+s', () => {
-      showModal.value = true
+      shortcutModal.value = true
     })
   }
 }
 
 const shortcutUnregister = async () => {
   await unregister('ctrl+shift+s')
-  showModal.value = false
+  shortcutModal.value = false
 }
 
 const themeOverrides = {
@@ -53,7 +56,8 @@ const changeAlwaysTop = () => {
 const export2PDF = async () => {
   try {
     const pdfBlob = await pdfExporter.generatePdf(store.content.ops)
-    saveAs(pdfBlob, 'export.pdf')
+    saveAs(pdfBlob, `${exportName.value}.pdf`)
+    exportModal_1.value = false
   } catch (e) {
     message.error('PDF export failed, file is empty')
   }
@@ -62,7 +66,8 @@ const export2PDF = async () => {
 const export2Word = async () => {
   try {
     const wordBlob: any = await wordExporter.generateWord(store.content.ops, {exportAs: 'blob'})
-    saveAs(wordBlob, 'export.docx')
+    saveAs(wordBlob, `${exportName.value}.docx`)
+    exportModal_2.value = false
   } catch (e) {
     message.error('Word export failed, file is empty')
   }
@@ -129,8 +134,8 @@ shortcutRegister()
     <button class="ql-video"></button>
     <button class="ql-link"></button>
     <button class="ql-clean"></button>
-    <button><i-mdi:file-pdf @click="export2PDF()"></i-mdi:file-pdf></button>
-    <button><i-grommet-icons:document-word @click="export2Word()"></i-grommet-icons:document-word></button>
+    <button><i-mdi:file-pdf @click="exportModal_1 = true"></i-mdi:file-pdf></button>
+    <button><i-grommet-icons:document-word @click="exportModal_2 = true"></i-grommet-icons:document-word></button>
   </div>
   <div 
     :class="{
@@ -173,13 +178,38 @@ shortcutRegister()
     </div>
     <n-modal
       class="mx-30vw"
-      v-model:show="showModal"
+      v-model:show="shortcutModal"
       :mask-closable="false"
       preset="card"
       title="Save as"
     >
+      <n-input type="text" v-model:value="exportName"></n-input>
       <div class="text-size-[30px] flex justify-end p-2">
         <button :theme-overridess="themeOverrides"><i-mdi:file-pdf class="m-[0.7rem]" @click="export2PDF()"></i-mdi:file-pdf></button>
+        <button :theme-overridess="themeOverrides"><i-mdi:file-word class="m-[0.7rem]" @click="export2Word()"></i-mdi:file-word></button>
+      </div>
+    </n-modal>
+    <n-modal
+      class="mx-30vw"
+      v-model:show="exportModal_1"
+      :mask-closable="false"
+      preset="card"
+      title="Save as"
+    >
+      <n-input type="text" v-model:value="exportName"></n-input>
+      <div class="text-size-[30px] flex justify-end p-2">
+        <button :theme-overridess="themeOverrides"><i-mdi:file-pdf class="m-[0.7rem]" @click="export2PDF()"></i-mdi:file-pdf></button>
+      </div>
+    </n-modal>
+    <n-modal
+      class="mx-30vw"
+      v-model:show="exportModal_2"
+      :mask-closable="false"
+      preset="card"
+      title="Save as"
+    >
+      <n-input type="text" v-model:value="exportName"></n-input>
+      <div class="text-size-[30px] flex justify-end p-2">
         <button :theme-overridess="themeOverrides"><i-mdi:file-word class="m-[0.7rem]" @click="export2Word()"></i-mdi:file-word></button>
       </div>
     </n-modal>
