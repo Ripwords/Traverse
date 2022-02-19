@@ -49,8 +49,7 @@
       "active": true,
       "endpoints": [
         "https://gist.github.com/Ripwords/36f76fb36dab5afdd9df433b69d75698/raw"
-      ],
-      "pubkey": ""
+      ]
     },
     "allowlist": {
       "all": true
