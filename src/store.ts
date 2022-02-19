@@ -3,6 +3,6 @@ import { useSessionStorage } from '@vueuse/core'
 
 export const mainStore = defineStore('mainStore', {
   state: () => ({
-    content: useSessionStorage('content', { ops: [] })
+    content: useSessionStorage('content', { ops: [] }) as any
   })
 })
