@@ -6,6 +6,7 @@ import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
 import AutoImport from 'unplugin-auto-import/vite'
 import Icons from 'unplugin-icons/vite'
 import IconsResolver from 'unplugin-icons/resolver'
+import { resolve } from 'path'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -26,5 +27,13 @@ export default defineConfig({
       imports: ['vue'],
       dts: 'src/auto-imports.d.ts'
     })
-  ]
+  ],
+  build: {
+    rollupOptions: {
+      input: {
+        main: resolve(__dirname, 'index.html'),
+        splashscreen: resolve(__dirname, 'splashscreen.html')
+      }
+    }
+  }
 })

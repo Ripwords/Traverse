@@ -9,7 +9,6 @@ import { saveAs } from 'file-saver'
 import { useMessage } from 'naive-ui'
 import '@vueup/vue-quill/dist/vue-quill.snow.css'
 
-
 const store = mainStore()
 const alwaysTop = ref(false)
 const opacity = ref(50)
@@ -90,7 +89,7 @@ appWindow.listen("tauri://focus", () => {
   shortcutRegister()
 })
 
-shortcutRegister()
+await shortcutRegister()
 </script>
 
 <template>

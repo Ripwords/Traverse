@@ -1,13 +1,13 @@
 {
   "package": {
-    "productName": "windowReader",
-    "version": "1.1.2"
+    "productName": "window-reader",
+    "version": "1.1.3"
   },
   "build": {
     "distDir": "../dist",
     "devPath": "http://localhost:3000",
-    "beforeDevCommand": "",
-    "beforeBuildCommand": ""
+    "beforeDevCommand": "vite",
+    "beforeBuildCommand": "vue-tsc --noEmit && vite build"
   },
   "tauri": {
     "bundle": {
@@ -37,6 +37,7 @@
         "useBootstrapper": false,
         "exceptionDomain": "",
         "signingIdentity": null,
+        "providerShortName": null,
         "entitlements": null
       },
       "windows": {
@@ -64,10 +65,23 @@
         "fullscreen": false,
         "transparent": true,
         "decorations": false
+      },
+      {
+        "label": "splashscreen",
+        "title": "splashscreen",
+        "width": 400,
+        "height": 229,
+        "resizable": false,
+        "fullscreen": false,
+        "transparent": false,
+        "decorations": false,
+        "alwaysOnTop": true,
+        "center": true,
+        "url": "splashscreen.html"
       }
     ],
     "security": {
-      "csp": "default-src blob: data: filesystem: ws: wss: http: https: tauri: 'unsafe-eval' 'unsafe-inline' 'self' img-src: 'self'"
+      "csp": null
     }
   }
 }
