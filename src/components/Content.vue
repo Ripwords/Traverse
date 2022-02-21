@@ -21,6 +21,7 @@ const toolbar = ref<any>(null)
 const shortcutModal = ref(false)
 const exportModal_1 = ref(false)
 const exportModal_2 = ref(false)
+const exitModal = ref(false)
 const message = useMessage()
 
 const shortcutRegister = async () => {
@@ -70,7 +71,7 @@ const export2Word = async () => {
   } catch (e) {
     message.error('Word export failed, file is empty')
   }
-} 
+}
 
 onMounted(() => {
   toolbar.value.style.backgroundColor = `rgba(255, 255, 255, 0.95)`
@@ -87,6 +88,22 @@ appWindow.listen("tauri://blur", () => {
 
 appWindow.listen("tauri://focus", () => {
   shortcutRegister()
+})
+
+appWindow.listen("tauri://close-requested", async () => {
+  if (store.content.ops.ops) {
+    if (store.content.ops.ops[0].insert !== ('\n' || '')) {
+      exitModal.value = true
+      return
+    }
+  }
+  await appWindow.close()
+})
+
+watch(() => store.content.ops, () => {
+  console.log(store.content.ops)
+  console.log(store.content.ops.ops.length)
+  console.log(store.content.ops.ops[0].insert.toString())
 })
 
 await shortcutRegister()
@@ -212,6 +229,19 @@ await shortcutRegister()
         <button :theme-overridess="themeOverrides"><i-mdi:file-word class="m-[0.7rem]" @click="export2Word()"></i-mdi:file-word></button>
       </div>
     </n-modal>
+    <n-modal
+      class="mx-30vw"
+      v-model:show="exitModal"
+      :mask-closable="false"
+      preset="dialog"
+      title="Unsaved changes"
+      content="Are you sure?"
+      positive-text="Yes"
+      negative-text="Cancel"
+      @positive-click="appWindow.close()"
+      @negative-click="exitModal = false"
+    >
+    </n-modal>  
   </div>
 </template>
 

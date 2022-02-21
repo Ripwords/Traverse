@@ -8,7 +8,6 @@ onMounted(() => {
   appWindow.setDecorations(true)
   appWindow.setSkipTaskbar(false)
 })
-
 </script>
 
 <template>
