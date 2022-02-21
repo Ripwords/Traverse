@@ -10,13 +10,9 @@ import { useMessage } from 'naive-ui'
 import '@vueup/vue-quill/dist/vue-quill.snow.css'
 
 const store = mainStore()
-const alwaysTop = ref(false)
-const opacity = ref(50)
 const text = ref<any>(null)
 const settings = ref(false)
-const theme = ref('dark')
 const themeColor = ref(0)
-const exportName = ref('export')
 const toolbar = ref<any>(null)
 const shortcutModal = ref(false)
 const exportModal_1 = ref(false)
@@ -44,19 +40,19 @@ const themeOverrides = {
 }
 
 const changeTheme = () => {
-  themeColor.value = theme.value === 'dark' ? 255 : 0
-  theme.value = theme.value === 'dark' ? 'light' : 'dark'
+  themeColor.value = store.theme === 'dark' ? 255 : 0
+  store.theme = store.theme === 'dark' ? 'light' : 'dark'
 }
 
 const changeAlwaysTop = () => {
-  alwaysTop.value = !alwaysTop.value
-  appWindow.setAlwaysOnTop(alwaysTop.value)
+  store.alwaysTop = !store.alwaysTop
+  appWindow.setAlwaysOnTop(store.alwaysTop)
 }
 
 const export2PDF = async () => {
   try {
     const pdfBlob = await pdfExporter.generatePdf(store.content.ops)
-    saveAs(pdfBlob, `${exportName.value}.pdf`)
+    saveAs(pdfBlob, `${store.exportName}.pdf`)
     exportModal_1.value = false
   } catch (e) {
     message.error('PDF export failed, file is empty')
@@ -66,7 +62,7 @@ const export2PDF = async () => {
 const export2Word = async () => {
   try {
     const wordBlob: any = await wordExporter.generateWord(store.content.ops, {exportAs: 'blob'})
-    saveAs(wordBlob, `${exportName.value}.docx`)
+    saveAs(wordBlob, `${store.exportName}.docx`)
     exportModal_2.value = false
   } catch (e) {
     message.error('Word export failed, file is empty')
@@ -75,11 +71,11 @@ const export2Word = async () => {
 
 onMounted(() => {
   toolbar.value.style.backgroundColor = `rgba(255, 255, 255, 0.95)`
-  text.value.style.backgroundColor = `rgba(0, 0, 0, ${opacity.value / 100})`
+  text.value.style.backgroundColor = `rgba(0, 0, 0, ${store.opacity / 100})`
 })
 
-watch([opacity, theme], () => {
-  text.value.style.backgroundColor = `rgba(${themeColor.value}, ${themeColor.value}, ${themeColor.value}, ${opacity.value / 100})`
+watch([() => store.opacity, () => store.theme], () => {
+  text.value.style.backgroundColor = `rgba(${themeColor.value}, ${themeColor.value}, ${themeColor.value}, ${store.opacity / 100})`
 })
 
 appWindow.listen("tauri://blur", () => {
@@ -155,22 +151,22 @@ await shortcutRegister()
   </div>
   <div 
     :class="{
-      'dark': theme === 'dark',
+      'dark': store.theme === 'dark',
     }"
   >
     <div v-show="settings" class="absolute z-10 w-8/10 h-20px bottom-100px transform translate-x-5vh">
       <n-h2 class="text-dark-900 dark:text-light-50">Opacity</n-h2>
-      <n-slider :theme-overrides="themeOverrides" v-model:value="opacity" :step="1"></n-slider>
+      <n-slider :theme-overrides="themeOverrides" v-model:value="store.opacity" :step="1"></n-slider>
     </div>
     <n-tooltip placement="top-start" trigger="hover">
       <template #trigger>
         <i-mdi:arrow-top-left-thin-circle-outline 
           class="fixed z-10 right-10px bottom-135px text-size-35px transition-colors duration-150 ease-linear" 
           :class="{ 
-            'text-green-500': alwaysTop, 
-            'text-dark-900': !alwaysTop, 
-            'dark:text-light-50': !alwaysTop, 
-            'dark:text-green-500': alwaysTop 
+            'text-green-500': store.alwaysTop, 
+            'text-dark-900': !store.alwaysTop, 
+            'dark:text-light-50': !store.alwaysTop, 
+            'dark:text-green-500': store.alwaysTop 
           }" 
           @click="changeAlwaysTop()"
         />
@@ -199,7 +195,7 @@ await shortcutRegister()
       preset="card"
       title="Save as"
     >
-      <n-input type="text" v-model:value="exportName"></n-input>
+      <n-input type="text" v-model:value="store.exportName"></n-input>
       <div class="text-size-[30px] flex justify-end p-2">
         <button :theme-overridess="themeOverrides"><i-mdi:file-pdf class="m-[0.7rem]" @click="export2PDF()"></i-mdi:file-pdf></button>
         <button :theme-overridess="themeOverrides"><i-mdi:file-word class="m-[0.7rem]" @click="export2Word()"></i-mdi:file-word></button>
@@ -212,7 +208,7 @@ await shortcutRegister()
       preset="card"
       title="Save as"
     >
-      <n-input type="text" v-model:value="exportName"></n-input>
+      <n-input type="text" v-model:value="store.exportName"></n-input>
       <div class="text-size-[30px] flex justify-end p-2">
         <button :theme-overridess="themeOverrides"><i-mdi:file-pdf class="m-[0.7rem]" @click="export2PDF()"></i-mdi:file-pdf></button>
       </div>
@@ -224,7 +220,7 @@ await shortcutRegister()
       preset="card"
       title="Save as"
     >
-      <n-input type="text" v-model:value="exportName"></n-input>
+      <n-input type="text" v-model:value="store.exportName"></n-input>
       <div class="text-size-[30px] flex justify-end p-2">
         <button :theme-overridess="themeOverrides"><i-mdi:file-word class="m-[0.7rem]" @click="export2Word()"></i-mdi:file-word></button>
       </div>
