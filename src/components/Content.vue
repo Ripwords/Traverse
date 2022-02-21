@@ -71,7 +71,7 @@ const export2Word = async () => {
 
 onMounted(() => {
   toolbar.value.style.backgroundColor = `rgba(255, 255, 255, 0.95)`
-  text.value.style.backgroundColor = `rgba(0, 0, 0, ${store.opacity / 100})`
+  text.value.style.backgroundColor = store.theme === 'dark' ? `rgba(0, 0, 0, ${store.opacity / 100})` : `rgba(255, 255, 255, ${store.opacity / 100})`
 })
 
 watch([() => store.opacity, () => store.theme], () => {
