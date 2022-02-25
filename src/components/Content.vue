@@ -72,6 +72,7 @@ const export2Word = async () => {
 onMounted(() => {
   toolbar.value.style.backgroundColor = `rgba(255, 255, 255, 0.95)`
   text.value.style.backgroundColor = store.theme === 'dark' ? `rgba(0, 0, 0, ${store.opacity / 100})` : `rgba(255, 255, 255, ${store.opacity / 100})`
+  appWindow.setAlwaysOnTop(store.alwaysTop)
 })
 
 watch([() => store.opacity, () => store.theme], () => {
