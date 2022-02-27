@@ -16,7 +16,6 @@ const themeColor = ref(0)
 const shortcutModal = ref(false)
 const exportModal_1 = ref(false)
 const exportModal_2 = ref(false)
-const spellcheck = ref(true)
 const exitModal = ref(false)
 const showOptions = ref(false)
 const message = useMessage()
@@ -51,6 +50,15 @@ const changeTheme = () => {
 const changeAlwaysTop = () => {
   store.alwaysTop = !store.alwaysTop
   appWindow.setAlwaysOnTop(store.alwaysTop)
+}
+
+const changeSpellcheck = () => {
+  store.spellcheck = !store.spellcheck
+  if (store.spellcheck) {
+    message.success("Spellcheck is enabled")
+  } else {
+    message.warning("Spellcheck is disabled")
+  }
 }
 
 const export2PDF = async () => {
@@ -112,7 +120,7 @@ await shortcutRegister()
     @settingsClicked="settings = false"
     @exportPDF="exportModal_1 = true"
     @exportWord="exportModal_2 = true"
-    @changeSpellcheck="spellcheck = !spellcheck"
+    @changeSpellcheck="changeSpellcheck()"
   />
   <div :class="{ 'dark': store.theme === 'dark' }">
     <div v-show="settings" class="absolute z-10 w-8/10 h-20px bottom-100px transform translate-x-5vh">
@@ -142,7 +150,7 @@ await shortcutRegister()
         name="content"
         id="content"
         toolbar="#toolbar" 
-        :spellcheck="spellcheck"
+        :spellcheck="store.spellcheck"
         v-model:content="store.content.ops" 
       />
     </div>

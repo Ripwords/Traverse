@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import { Quill } from '@vueup/vue-quill'
+import { mainStore } from '../store'
 
+const store = mainStore()
 const sizes: any = {
   "Normal": '16px',
   "Medium": '18.667px',
@@ -12,7 +14,6 @@ let Size = Quill.import('attributors/style/size')
 Size.whitelist = Object.values(sizes)
 Quill.register(Size, true)
 
-const spellcheck = ref(true)
 const toolbar = ref<any>(null)
 const emit = defineEmits([
   "settingsClicked",
@@ -70,7 +71,7 @@ onMounted(() => {
     <button class="ql-video"></button>
     <button class="ql-link"></button>
     <button class="ql-clean"></button>
-    <button><i-mdi:spellcheck @click="emit('changeSpellcheck'); spellcheck = !spellcheck" :class="{ 'text-red-600': !spellcheck, 'text-green-700': spellcheck }"></i-mdi:spellcheck></button>
+    <button><i-mdi:spellcheck @click="emit('changeSpellcheck')" :class="{ 'text-red-600': !store.spellcheck, 'text-green-700': store.spellcheck }"></i-mdi:spellcheck></button>
     <button><i-mdi:file-pdf @click="emit('exportPDF')"></i-mdi:file-pdf></button>
     <button><i-grommet-icons:document-word @click="emit('exportWord')"></i-grommet-icons:document-word></button>
   </div>

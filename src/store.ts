@@ -13,5 +13,6 @@ export const mainStore = defineStore('mainStore', {
     theme: useLocalStorage('theme', 'dark'),
     exportName: useLocalStorage('exportName', 'export'),
     alwaysTop: useLocalStorage('alwaysTop', false),
+    spellcheck: useLocalStorage('spellcheck', true)
   })
 })
