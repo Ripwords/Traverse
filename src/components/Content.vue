@@ -13,12 +13,22 @@ const store = mainStore()
 const text = ref<any>(null)
 const settings = ref(false)
 const themeColor = ref(0)
-const toolbar = ref<any>(null)
 const shortcutModal = ref(false)
 const exportModal_1 = ref(false)
 const exportModal_2 = ref(false)
+const spellcheck = ref(true)
 const exitModal = ref(false)
+const showOptions = ref(false)
 const message = useMessage()
+
+const checkContent = () => {
+  if (store.content.ops.ops) {
+    if (store.content.ops.ops[0].insert !== ('\n' || '')) {
+      return true
+    }
+  }
+  return false
+}
 
 const shortcutRegister = async () => {
   if (!(await isRegistered('ctrl+shift+s'))) {
@@ -33,12 +43,6 @@ const shortcutUnregister = async () => {
   shortcutModal.value = false
 }
 
-const themeOverrides = {
-  common: {
-    primaryColor: '#8a8a8a'
-  }
-}
-
 const changeTheme = () => {
   themeColor.value = store.theme === 'dark' ? 255 : 0
   store.theme = store.theme === 'dark' ? 'light' : 'dark'
@@ -51,26 +55,31 @@ const changeAlwaysTop = () => {
 
 const export2PDF = async () => {
   try {
-    const pdfBlob = await pdfExporter.generatePdf(store.content.ops)
-    saveAs(pdfBlob, `${store.exportName}.pdf`)
-    exportModal_1.value = false
+    if (checkContent()) {
+      const pdfBlob = await pdfExporter.generatePdf(store.content.ops)
+      saveAs(pdfBlob, `${store.exportName}.pdf`)
+    } else {
+      message.error('PDF export failed, file is empty')
+    }
   } catch (e) {
-    message.error('PDF export failed, file is empty')
+    message.error('PDF export failed, unknown error')
   }
 }
 
 const export2Word = async () => {
   try {
-    const wordBlob: any = await wordExporter.generateWord(store.content.ops, {exportAs: 'blob'})
-    saveAs(wordBlob, `${store.exportName}.docx`)
-    exportModal_2.value = false
+    if (checkContent()) {
+      const wordBlob: any = await wordExporter.generateWord(store.content.ops, {exportAs: 'blob'})
+      saveAs(wordBlob, `${store.exportName}.docx`)
+    } else {
+      message.error('Word export failed, file is empty')
+    }
   } catch (e) {
-    message.error('Word export failed, file is empty')
+    message.error('Word export failed, unknown error')
   }
 }
 
 onMounted(() => {
-  toolbar.value.style.backgroundColor = `rgba(255, 255, 255, 0.95)`
   text.value.style.backgroundColor = store.theme === 'dark' ? `rgba(0, 0, 0, ${store.opacity / 100})` : `rgba(255, 255, 255, ${store.opacity / 100})`
   appWindow.setAlwaysOnTop(store.alwaysTop)
 })
@@ -88,107 +97,67 @@ appWindow.listen("tauri://focus", () => {
 })
 
 appWindow.listen("tauri://close-requested", async () => {
-  if (store.content.ops.ops) {
-    if (store.content.ops.ops[0].insert !== ('\n' || '')) {
-      exitModal.value = true
-      return
-    }
+  if (checkContent()) {
+    exitModal.value = true
+  } else {
+    await appWindow.close()
   }
-  await appWindow.close()
-})
-
-watch(() => store.content.ops, () => {
-  console.log(store.content.ops)
-  console.log(store.content.ops.ops.length)
-  console.log(store.content.ops.ops[0].insert.toString())
 })
 
 await shortcutRegister()
 </script>
 
 <template>
-  <div id="toolbar" ref="toolbar" @click="settings = false">
-    <select class="ql-font"></select>
-    <select class="ql-size">
-      <option value="small"></option>
-      <option selected></option>
-      <option value="large"></option>
-      <option value="huge"></option>
-    </select>
-    <button class="ql-bold"></button>
-    <button class="ql-italic"></button>
-    <button class="ql-underline"></button>
-    <button class="ql-strike"></button>
-    <button class="ql-blockquote"></button>
-    <select class="ql-color"></select>
-    <select class="ql-background"></select>
-    <button class="ql-code-block"></button>
-    <select class="ql-header">
-      <option value="1"></option>
-      <option value="2"></option>
-      <option value="3"></option>
-      <option value="4"></option>
-      <option value="5"></option>
-    </select>
-    <button class="ql-list" value="ordered"></button>
-    <button class="ql-list" value="bullet"></button>
-    <button class="ql-script" value="sub"></button>
-    <button class="ql-script" value="super"></button>
-    <button class="ql-indent" value="-1"></button>
-    <button class="ql-indent" value="+1"></button>
-    <button class="ql-direction" value="rtl"></button>
-    <select class="ql-align">
-      <option selected></option>
-      <option value="center"></option>
-      <option value="right"></option>
-      <option value="justify"></option>
-    </select>
-    <button class="ql-image"></button>
-    <button class="ql-video"></button>
-    <button class="ql-link"></button>
-    <button class="ql-clean"></button>
-    <button><i-mdi:file-pdf @click="exportModal_1 = true"></i-mdi:file-pdf></button>
-    <button><i-grommet-icons:document-word @click="exportModal_2 = true"></i-grommet-icons:document-word></button>
-  </div>
-  <div 
-    :class="{
-      'dark': store.theme === 'dark',
-    }"
-  >
+  <Toolbar 
+    @settingsClicked="settings = false"
+    @exportPDF="exportModal_1 = true"
+    @exportWord="exportModal_2 = true"
+    @changeSpellcheck="spellcheck = !spellcheck"
+  />
+  <div :class="{ 'dark': store.theme === 'dark' }">
     <div v-show="settings" class="absolute z-10 w-8/10 h-20px bottom-100px transform translate-x-5vh">
       <n-h2 class="text-dark-900 dark:text-light-50">Opacity</n-h2>
-      <n-slider :theme-overrides="themeOverrides" v-model:value="store.opacity" :step="1"></n-slider>
+      <n-slider :theme-overrides="store.themeOverrides" v-model:value="store.opacity" :step="1"></n-slider>
     </div>
-    <n-tooltip placement="top-start" trigger="hover">
-      <template #trigger>
-        <i-mdi:arrow-top-left-thin-circle-outline 
-          class="fixed z-10 right-10px bottom-135px text-size-35px transition-colors duration-150 ease-linear" 
-          :class="{ 
-            'text-green-500': store.alwaysTop, 
-            'text-dark-900': !store.alwaysTop, 
-            'dark:text-light-50': !store.alwaysTop, 
-            'dark:text-green-500': store.alwaysTop 
-          }" 
-          @click="changeAlwaysTop()"
+    <div
+      :class="{
+        'opacity-100': showOptions,
+        'opacity-0': !showOptions
+      }"
+      class="fixed bottom-0 right-0 z-10 w-[64px] h-[185px]"
+      @mouseleave="showOptions = false"
+    >
+      <Transition name="option">
+        <Options
+          v-if="showOptions"
+          @change-settings="settings = !settings" 
+          @change-theme="changeTheme()"
+          @change-alwaystop="changeAlwaysTop()"  
         />
-      </template>
-      Always-on-top
-    </n-tooltip>
-    <n-tooltip placement="top-start" trigger="hover">
-      <template #trigger>
-        <i-mdi:theme-light-dark class="fixed z-10 right-10px bottom-75px text-size-35px text-dark-900 dark:text-light-50 transition-colors duration-150 ease-linear" @click="changeTheme()" />
-      </template>
-      Theme
-    </n-tooltip>
-    <n-tooltip placement="top-start" trigger="hover">
-      <template #trigger>
-        <i-ri:settings-3-line class="fixed z-10 right-10px bottom-15px text-size-35px text-dark-900 dark:text-light-50 transition-colors duration-150 ease-linear" @click="settings = !settings" />
-      </template>
-      Settings
-    </n-tooltip>
-    <div ref="text" class="relative h-100vh text-dark-900 dark:text-light-50 transition-colors duration-150 ease-linear" @click="settings = false">
-      <QuillEditor toolbar="#toolbar" spellcheck="false" v-model:content="store.content.ops"></QuillEditor>
+      </Transition>
     </div>
+    <HoverCorner v-if="!showOptions" color="#10b981" class="fixed z-15 right-0 bottom-0" @mouseenter="showOptions = true" />
+    <div ref="text" class="relative h-100vh text-dark-900 dark:text-light-50 transition-colors duration-150 ease-linear" @click="settings = false">
+      <QuillEditor 
+        name="content"
+        id="content"
+        toolbar="#toolbar" 
+        :spellcheck="spellcheck"
+        v-model:content="store.content.ops" 
+      />
+    </div>
+    <exportModal 
+      type="pdf" 
+      :func="export2PDF" 
+      :show="exportModal_1"
+      @close="exportModal_1 = false"  
+    />
+    <exportModal 
+      type="word" 
+      :func="export2Word" 
+      :show="exportModal_2"
+      @close="exportModal_2 = false"  
+    />
     <n-modal
       class="mx-30vw"
       v-model:show="shortcutModal"
@@ -198,32 +167,8 @@ await shortcutRegister()
     >
       <n-input type="text" v-model:value="store.exportName"></n-input>
       <div class="text-size-[30px] flex justify-end p-2">
-        <button :theme-overridess="themeOverrides"><i-mdi:file-pdf class="m-[0.7rem]" @click="export2PDF()"></i-mdi:file-pdf></button>
-        <button :theme-overridess="themeOverrides"><i-mdi:file-word class="m-[0.7rem]" @click="export2Word()"></i-mdi:file-word></button>
-      </div>
-    </n-modal>
-    <n-modal
-      class="mx-30vw"
-      v-model:show="exportModal_1"
-      :mask-closable="false"
-      preset="card"
-      title="Save as"
-    >
-      <n-input type="text" v-model:value="store.exportName"></n-input>
-      <div class="text-size-[30px] flex justify-end p-2">
-        <button :theme-overridess="themeOverrides"><i-mdi:file-pdf class="m-[0.7rem]" @click="export2PDF()"></i-mdi:file-pdf></button>
-      </div>
-    </n-modal>
-    <n-modal
-      class="mx-30vw"
-      v-model:show="exportModal_2"
-      :mask-closable="false"
-      preset="card"
-      title="Save as"
-    >
-      <n-input type="text" v-model:value="store.exportName"></n-input>
-      <div class="text-size-[30px] flex justify-end p-2">
-        <button :theme-overridess="themeOverrides"><i-mdi:file-word class="m-[0.7rem]" @click="export2Word()"></i-mdi:file-word></button>
+        <button :theme-overridess="store.themeOverrides"><i-mdi:file-pdf class="m-[0.7rem]" @click="export2PDF()"></i-mdi:file-pdf></button>
+        <button :theme-overridess="store.themeOverrides"><i-mdi:file-word class="m-[0.7rem]" @click="export2Word()"></i-mdi:file-word></button>
       </div>
     </n-modal>
     <n-modal
@@ -251,5 +196,15 @@ html {
 ::-webkit-scrollbar {
   width: 0;  /* Remove scrollbar space */
   background: transparent;  /* Optional: just make scrollbar invisible */
+}
+
+.option-enter-active,
+.option-leave-active {
+  transition: all .3s ease;
+}
+
+.option-enter-from,
+.option-leave-to {
+  opacity: 0;
 }
 </style>

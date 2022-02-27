@@ -5,10 +5,15 @@
 declare module 'vue' {
   export interface GlobalComponents {
     Content: typeof import('./src/components/Content.vue')['default']
+    Editor: typeof import('./src/components/Editor.vue')['default']
+    ExportModal: typeof import('./src/components/exportModal.vue')['default']
+    HoverArea: typeof import('./src/components/HoverArea.vue')['default']
+    HoverCorner: typeof import('./src/components/HoverCorner.vue')['default']
     'IGrommetIcons:documentWord': typeof import('~icons/grommet-icons/document-word')['default']
     'IMdi:arrowTopLeftThinCircleOutline': typeof import('~icons/mdi/arrow-top-left-thin-circle-outline')['default']
     'IMdi:filePdf': typeof import('~icons/mdi/file-pdf')['default']
     'IMdi:fileWord': typeof import('~icons/mdi/file-word')['default']
+    'IMdi:spellcheck': typeof import('~icons/mdi/spellcheck')['default']
     'IMdi:themeLightDark': typeof import('~icons/mdi/theme-light-dark')['default']
     'IRi:settings3Line': typeof import('~icons/ri/settings3-line')['default']
     NH2: typeof import('naive-ui')['NH2']
@@ -17,6 +22,8 @@ declare module 'vue' {
     NModal: typeof import('naive-ui')['NModal']
     NSlider: typeof import('naive-ui')['NSlider']
     NTooltip: typeof import('naive-ui')['NTooltip']
+    Options: typeof import('./src/components/Options.vue')['default']
+    Toolbar: typeof import('./src/components/Toolbar.vue')['default']
   }
 }
 
