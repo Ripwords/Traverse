@@ -146,8 +146,6 @@ appWindow.listen("tauri://close-requested", async () => {
 })
 
 await shortcutRegister()
-
-// TODO Fix word count placement, when scrolling it is stuck in an awkward position
 </script>
 
 <template>
@@ -158,7 +156,7 @@ await shortcutRegister()
     @changeSpellcheck="changeSpellcheck()"
   />
   <div :class="{ 'dark': store.theme === 'dark' }">
-    <div class="fixed right-1 mt-1 z-20 text-size-[12px] opacity-70 text-dark-900 dark:text-light-500 transition-colors duration-150 ease-linear">{{ store.wordCount }}</div>
+    <div class="absolute right-1 mt-1 z-20 text-size-[12px] opacity-70 text-dark-900 dark:text-light-500 transition-colors duration-150 ease-linear">{{ store.wordCount }}</div>
     <div v-show="settings" class="absolute z-10 w-8/10 h-20px bottom-100px transform translate-x-5vh">
       <n-h2 class="text-dark-900 dark:text-light-50">Opacity</n-h2>
       <n-slider :theme-overrides="store.themeOverrides" v-model:value="store.opacity" :step="1"></n-slider>
