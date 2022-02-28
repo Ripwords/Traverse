@@ -108,6 +108,7 @@ watch(() => store.content.ops.ops, () => {
       }
     }
   })
+  const specialCharacters = ['`', '~', '<', '>', '+', '-', '=', '|', '\\', '/', '*', '@', '#', '$', '%', '^', '&', '!', '?', ';', ':', '.', ',', ' ']
   arr.forEach((arrItem: any) => {
     arrItem.forEach((item: any) => {
       const words = item.split(" ")
@@ -115,11 +116,11 @@ watch(() => store.content.ops.ops, () => {
         if(word.split("\n").length > 1) {
           const subWords = word.split("\n")
           subWords.forEach((subWord: any) => {
-            if(subWord.length > 0) {
+            if(subWord.length > 0 && !specialCharacters.includes(subWord)) {
               count++
             }
           })
-        } else if(word.length > 0) {
+        } else if(word.length > 0 && !specialCharacters.includes(word)) {
           count++
         }
       })
@@ -145,6 +146,8 @@ appWindow.listen("tauri://close-requested", async () => {
 })
 
 await shortcutRegister()
+
+// TODO Fix word count placement, when scrolling it is stuck in an awkward position
 </script>
 
 <template>
