@@ -9,10 +9,11 @@ const color = props.color
 
 <style scoped>
 #triangle-bottomright {
-  width: 0;
-  height: 0;
+  width: 35px;
+  height: 35px;
+  -webkit-clip-path: polygon(100% 0, 0% 100%, 100% 100%);
+  clip-path: polygon(100% 0, 0% 100%, 100% 100%);
+  background: v-bind(color);
   opacity: 0.4;
-  border-bottom: 35px solid v-bind(color);
-  border-left: 35px solid transparent;
 }
 </style>
