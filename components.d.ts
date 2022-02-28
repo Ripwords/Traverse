@@ -24,6 +24,7 @@ declare module 'vue' {
     NTooltip: typeof import('naive-ui')['NTooltip']
     Options: typeof import('./src/components/Options.vue')['default']
     Toolbar: typeof import('./src/components/Toolbar.vue')['default']
+    WordCount: typeof import('./src/components/WordCount.vue')['default']
   }
 }
 

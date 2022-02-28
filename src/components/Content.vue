@@ -1,12 +1,12 @@
 <script lang="ts" setup>
+import { saveAs } from 'file-saver'
+import { mainStore } from '../store'
+import { useMessage } from 'naive-ui'
+import { pdfExporter } from 'quill-to-pdf'
+import * as wordExporter from 'quill-to-word'
 import { QuillEditor } from '@vueup/vue-quill'
 import { appWindow } from '@tauri-apps/api/window'
 import { isRegistered, register, unregister } from '@tauri-apps/api/globalShortcut'
-import { mainStore } from '../store'
-import { pdfExporter } from 'quill-to-pdf'
-import * as wordExporter from 'quill-to-word'
-import { saveAs } from 'file-saver'
-import { useMessage } from 'naive-ui'
 import '@vueup/vue-quill/dist/vue-quill.snow.css'
 
 const store = mainStore()
@@ -96,6 +96,31 @@ watch([() => store.opacity, () => store.theme], () => {
   text.value.style.backgroundColor = `rgba(${themeColor.value}, ${themeColor.value}, ${themeColor.value}, ${store.opacity / 100})`
 })
 
+watch(() => store.content.ops.ops, () => {
+  let arr: any = []
+  let count = 0
+  store.content.ops.ops.forEach((arrItem: any) => {
+    if(typeof(arrItem.insert) === 'string') {
+      if(!arrItem.insert.endsWith('\n')) {
+        arr.push(arrItem.insert.split(' '))
+      } else {
+        arr.push(arrItem.insert.split('\n'))
+      }
+    }
+  })
+  arr.forEach((arrItem: any) => {
+    arrItem.forEach((item: any) => {
+      const words = item.split(" ")
+      words.forEach((word: any) => {
+        if(word.length > 0) {
+          count++
+        }
+      })
+    })
+  })
+  store.wordCount = count
+})
+
 appWindow.listen("tauri://blur", () => {
   shortcutUnregister()
 })
@@ -123,6 +148,7 @@ await shortcutRegister()
     @changeSpellcheck="changeSpellcheck()"
   />
   <div :class="{ 'dark': store.theme === 'dark' }">
+    <div class="fixed right-1 mt-1 z-20 text-size-[12px] opacity-70 text-dark-900 dark:text-light-500 transition-colors duration-150 ease-linear">{{ store.wordCount }}</div>
     <div v-show="settings" class="absolute z-10 w-8/10 h-20px bottom-100px transform translate-x-5vh">
       <n-h2 class="text-dark-900 dark:text-light-50">Opacity</n-h2>
       <n-slider :theme-overrides="store.themeOverrides" v-model:value="store.opacity" :step="1"></n-slider>
