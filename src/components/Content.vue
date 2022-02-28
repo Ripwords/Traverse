@@ -112,7 +112,14 @@ watch(() => store.content.ops.ops, () => {
     arrItem.forEach((item: any) => {
       const words = item.split(" ")
       words.forEach((word: any) => {
-        if(word.length > 0) {
+        if(word.split("\n").length > 1) {
+          const subWords = word.split("\n")
+          subWords.forEach((subWord: any) => {
+            if(subWord.length > 0) {
+              count++
+            }
+          })
+        } else if(word.length > 0) {
           count++
         }
       })
