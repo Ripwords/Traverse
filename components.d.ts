@@ -5,9 +5,7 @@
 declare module 'vue' {
   export interface GlobalComponents {
     Content: typeof import('./src/components/Content.vue')['default']
-    Editor: typeof import('./src/components/Editor.vue')['default']
     ExportModal: typeof import('./src/components/exportModal.vue')['default']
-    HoverArea: typeof import('./src/components/HoverArea.vue')['default']
     HoverCorner: typeof import('./src/components/HoverCorner.vue')['default']
     'IGrommetIcons:documentWord': typeof import('~icons/grommet-icons/document-word')['default']
     'IMdi:arrowTopLeftThinCircleOutline': typeof import('~icons/mdi/arrow-top-left-thin-circle-outline')['default']
@@ -16,9 +14,6 @@ declare module 'vue' {
     'IMdi:spellcheck': typeof import('~icons/mdi/spellcheck')['default']
     'IMdi:themeLightDark': typeof import('~icons/mdi/theme-light-dark')['default']
     'IRi:settings3Line': typeof import('~icons/ri/settings3-line')['default']
-    NCard: typeof import('naive-ui')['NCard']
-    NDrawer: typeof import('naive-ui')['NDrawer']
-    NDrawerContent: typeof import('naive-ui')['NDrawerContent']
     NH2: typeof import('naive-ui')['NH2']
     NInput: typeof import('naive-ui')['NInput']
     NMessageProvider: typeof import('naive-ui')['NMessageProvider']
@@ -27,8 +22,8 @@ declare module 'vue' {
     NSwitch: typeof import('naive-ui')['NSwitch']
     NTooltip: typeof import('naive-ui')['NTooltip']
     Options: typeof import('./src/components/Options.vue')['default']
+    ShortcutModal: typeof import('./src/components/shortcutModal.vue')['default']
     Toolbar: typeof import('./src/components/Toolbar.vue')['default']
-    WordCount: typeof import('./src/components/WordCount.vue')['default']
   }
 }
 

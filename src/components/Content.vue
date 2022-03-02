@@ -227,8 +227,8 @@ await shortcutRegister()
     >
       <n-input type="text" v-model:value="store.exportName"></n-input>
       <div class="text-size-[30px] flex justify-end p-2">
-        <button :theme-overridess="store.themeOverrides"><i-mdi:file-pdf class="m-[0.7rem]" @click="export2PDF()"></i-mdi:file-pdf></button>
-        <button :theme-overridess="store.themeOverrides"><i-mdi:file-word class="m-[0.7rem]" @click="export2Word()"></i-mdi:file-word></button>
+        <button :theme-overridess="store.themeOverrides"><i-mdi:file-pdf class="m-[0.7rem]" @click="export2PDF(); shortcutModal = false"></i-mdi:file-pdf></button>
+        <button :theme-overridess="store.themeOverrides"><i-mdi:file-word class="m-[0.7rem]" @click="export2Word(); shortcutModal = false"></i-mdi:file-word></button>
       </div>
     </n-modal>
     <n-modal
