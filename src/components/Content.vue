@@ -149,23 +149,50 @@ await shortcutRegister()
 </script>
 
 <template>
-  <Toolbar 
-    @settingsClicked="settings = false"
-    @exportPDF="exportModal_1 = true"
-    @exportWord="exportModal_2 = true"
-    @changeSpellcheck="changeSpellcheck()"
-  />
   <div :class="{ 'dark': store.theme === 'dark' }">
-    <div class="absolute right-1 mt-1 z-20 text-size-[12px] opacity-70 text-dark-900 dark:text-light-500 transition-colors duration-150 ease-linear">{{ store.wordCount }}</div>
-    <div v-show="settings" class="absolute z-10 w-8/10 h-20px bottom-100px transform translate-x-5vh">
+    <div v-show="settings" class="absolute z-10 w-8/10 h-20px bottom-200px transform translate-x-5vh">
       <n-h2 class="text-dark-900 dark:text-light-50">Opacity</n-h2>
       <n-slider :theme-overrides="store.themeOverrides" v-model:value="store.opacity" :step="1"></n-slider>
+      <n-h2 class="text-dark-900 dark:text-light-50">Toolbar</n-h2>
+      <n-switch 
+        size="large"
+        v-model:value="store.toolbar"
+      >
+        <template #checked>
+          Toolbar
+        </template>
+        <template #unchecked>
+          Toolbar
+        </template>
+      </n-switch>
     </div>
+    <TransitionGroup name="list" tag="div">
+      <div v-show="store.toolbar" :key="'toolbar'">
+        <Toolbar 
+          @settingsClicked="settings = false"
+          @exportPDF="exportModal_1 = true"
+          @exportWord="exportModal_2 = true"
+          @changeSpellcheck="changeSpellcheck()"
+        />
+      </div>
+      <div ref="text" 
+        :key="'editor'" 
+        class="relative h-100vh text-dark-900 dark:text-light-50 transition-colors duration-150 ease-linear" 
+        @click="settings = false"
+      >
+        <div class="absolute right-1 mt-1 z-20 text-size-[12px] opacity-70 text-dark-900 dark:text-light-500 transition-colors duration-150 ease-linear">
+          {{ store.wordCount }}
+        </div>
+        <QuillEditor 
+          name="content"
+          id="content"
+          toolbar="#toolbar" 
+          :spellcheck="store.spellcheck"
+          v-model:content="store.content.ops" 
+        />
+      </div>
+    </TransitionGroup>
     <div
-      :class="{
-        'opacity-100': showOptions,
-        'opacity-0': !showOptions
-      }"
       class="fixed bottom-0 right-0 z-10 w-[64px] h-[185px]"
       @mouseleave="showOptions = false"
     >
@@ -179,15 +206,6 @@ await shortcutRegister()
       </Transition>
     </div>
     <HoverCorner v-if="!showOptions" color="#10b981" class="fixed z-15 right-0 bottom-0" @mouseenter="showOptions = true" />
-    <div ref="text" class="relative h-100vh text-dark-900 dark:text-light-50 transition-colors duration-150 ease-linear" @click="settings = false">
-      <QuillEditor 
-        name="content"
-        id="content"
-        toolbar="#toolbar" 
-        :spellcheck="store.spellcheck"
-        v-model:content="store.content.ops" 
-      />
-    </div>
     <exportModal 
       type="pdf" 
       :func="export2PDF" 
@@ -238,6 +256,22 @@ html {
 ::-webkit-scrollbar {
   width: 0;  /* Remove scrollbar space */
   background: transparent;  /* Optional: just make scrollbar invisible */
+}
+
+.list-move,
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.5s ease;
+}
+
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
+
+.list-leave-active {
+  position: absolute;
 }
 
 .option-enter-active,

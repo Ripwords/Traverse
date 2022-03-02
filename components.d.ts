@@ -24,6 +24,7 @@ declare module 'vue' {
     NMessageProvider: typeof import('naive-ui')['NMessageProvider']
     NModal: typeof import('naive-ui')['NModal']
     NSlider: typeof import('naive-ui')['NSlider']
+    NSwitch: typeof import('naive-ui')['NSwitch']
     NTooltip: typeof import('naive-ui')['NTooltip']
     Options: typeof import('./src/components/Options.vue')['default']
     Toolbar: typeof import('./src/components/Toolbar.vue')['default']

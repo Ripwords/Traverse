@@ -1,6 +1,6 @@
 [package]
 name = "window_reader"
-version = "1.2.3"
+version = "1.2.4"
 description = "A transparent notepad-like app"
 authors = ["Ripwords"]
 license = ""

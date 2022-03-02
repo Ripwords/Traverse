@@ -9,6 +9,7 @@ export const mainStore = defineStore('mainStore', {
       }
     },
     content: useSessionStorage('content', { ops: [] }) as any,
+    toolbar: useLocalStorage('toolbar', true),
     wordCount: useSessionStorage('wordCount', 0),
     opacity: useLocalStorage('opacity', 50),
     theme: useLocalStorage('theme', 'dark'),
