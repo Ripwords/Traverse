@@ -6,16 +6,16 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/Ripwords/window-reader/releases/download/windowReader-v1.2.5/window-reader_1.2.5_x64_en-US.msi" target="_blank">
+  <a href="https://github.com/Ripwords/window-reader/releases/download/windowReader-v1.2.6/window-reader_1.2.6_x64_en-US.msi" target="_blank">
     <img src="https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white" />
   </a>
-  <a href="https://github.com/Ripwords/window-reader/releases/download/windowReader-v1.2.5/window-reader_1.2.5_amd64.AppImage" target="_blank">
+  <a href="https://github.com/Ripwords/window-reader/releases/download/windowReader-v1.2.6/window-reader_1.2.6_amd64.AppImage" target="_blank">
     <img src="https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black" />
   </a>
-  <a href="https://github.com/Ripwords/window-reader/releases/download/windowReader-v1.2.5/window-reader_1.2.5_amd64.deb" target="_blank">
+  <a href="https://github.com/Ripwords/window-reader/releases/download/windowReader-v1.2.6/window-reader_1.2.6_amd64.deb" target="_blank">
     <img src="https://img.shields.io/badge/Debian-D70A53?style=for-the-badge&logo=debian&logoColor=white" />
   </a>
-  <a href="https://github.com/Ripwords/window-reader/releases/download/windowReader-v1.2.5/window-reader_1.2.5_x64.dmg" target="_blank">
+  <a href="https://github.com/Ripwords/window-reader/releases/download/windowReader-v1.2.6/window-reader_1.2.6_x64.dmg" target="_blank">
     <img src="https://img.shields.io/badge/mac%20os-000000?style=for-the-badge&logo=macos&logoColor=F0F0F0" />
   </a>
 </p>
