@@ -1,7 +1,7 @@
 {
   "package": {
     "productName": "window-reader",
-    "version": "1.2.5"
+    "version": "1.2.6"
   },
   "build": {
     "distDir": "../dist",
@@ -28,13 +28,11 @@
       "shortDescription": "",
       "longDescription": "",
       "deb": {
-        "depends": [],
-        "useBootstrapper": false
+        "depends": []
       },
       "macOS": {
         "frameworks": [],
         "minimumSystemVersion": "",
-        "useBootstrapper": false,
         "exceptionDomain": "",
         "signingIdentity": null,
         "providerShortName": null,
@@ -65,19 +63,6 @@
         "fullscreen": false,
         "transparent": true,
         "decorations": false
-      },
-      {
-        "label": "splashscreen",
-        "title": "splashscreen",
-        "width": 400,
-        "height": 229,
-        "resizable": false,
-        "fullscreen": false,
-        "transparent": false,
-        "decorations": false,
-        "alwaysOnTop": true,
-        "center": true,
-        "url": "splashscreen.html"
       }
     ],
     "security": {

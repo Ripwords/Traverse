@@ -22,7 +22,6 @@ declare module 'vue' {
     NSwitch: typeof import('naive-ui')['NSwitch']
     NTooltip: typeof import('naive-ui')['NTooltip']
     Options: typeof import('./src/components/Options.vue')['default']
-    ShortcutModal: typeof import('./src/components/shortcutModal.vue')['default']
     Toolbar: typeof import('./src/components/Toolbar.vue')['default']
   }
 }
