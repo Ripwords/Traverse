@@ -19,6 +19,8 @@ const exportModal_2 = ref(false)
 const exitModal = ref(false)
 const showOptions = ref(false)
 const message = useMessage()
+const tempOpacity = ref()
+const tempSpellcheck = ref()
 
 const checkContent = () => {
   if (store.content.ops.ops) {
@@ -127,6 +129,29 @@ watch(() => store.content.ops.ops, () => {
     })
   })
   store.wordCount = count
+})
+
+watch(settings, () => {
+  if (settings.value) {
+    // store the current opacity of text.value.style.color
+    tempOpacity.value = text.value.style.color
+    text.value.style.color = 'rgba(0,0,0,0)'
+    tempSpellcheck.value = store.spellcheck
+    store.spellcheck = false
+    // change all img opacity to 0
+    const imgs = document.getElementsByTagName('img')
+    for (let i = 0; i < imgs.length; i++) {
+      imgs[i].style.opacity = '0'
+    }
+  } else {
+    text.value.style.color = tempOpacity.value
+    store.spellcheck = tempSpellcheck.value
+    // change all img opacity to 1
+    const imgs = document.getElementsByTagName('img')
+    for (let i = 0; i < imgs.length; i++) {
+      imgs[i].style.opacity = '1'
+    }
+  }
 })
 
 appWindow.listen("tauri://blur", () => {

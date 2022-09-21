@@ -5,7 +5,7 @@
   },
   "build": {
     "distDir": "../dist",
-    "devPath": "http://localhost:3000",
+    "devPath": "http://localhost:5173",
     "beforeDevCommand": "vite",
     "beforeBuildCommand": "vue-tsc --noEmit && vite build"
   },
@@ -62,7 +62,8 @@
         "resizable": true,
         "fullscreen": false,
         "transparent": true,
-        "decorations": false
+        "decorations": false,
+        "visible": false
       }
     ],
     "security": {
