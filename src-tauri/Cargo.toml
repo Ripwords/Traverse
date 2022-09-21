@@ -1,11 +1,11 @@
 [package]
-name = "window_reader"
-version = "1.2.6"
-description = "A transparent notepad-like app"
+name = "traverse"
+version = "1.0.0"
+description = "A transparent notepad"
 authors = ["Ripwords"]
 license = ""
-repository = "https://github.com/Ripwords/window-reader"
-default-run = "window_reader"
+repository = "https://github.com/Ripwords/Traverse"
+default-run = "traverse"
 edition = "2021"
 rust-version = "1.57"
 

@@ -1,7 +1,7 @@
 {
   "package": {
-    "productName": "window-reader",
-    "version": "1.2.6"
+    "productName": "Traverse",
+    "version": "1.0.0"
   },
   "build": {
     "distDir": "../dist",
@@ -13,7 +13,7 @@
     "bundle": {
       "active": true,
       "targets": "all",
-      "identifier": "com.ripwords.windowreader",
+      "identifier": "com.ripwords.traverse",
       "icon": [
         "icons/32x32.png",
         "icons/128x128.png",
@@ -25,7 +25,7 @@
       "externalBin": [],
       "copyright": "",
       "category": "Lifestyle",
-      "shortDescription": "A simple transparent notepad",
+      "shortDescription": "A transparent notepad",
       "longDescription": "",
       "deb": {
         "depends": []
@@ -47,16 +47,16 @@
     "updater": {
       "active": true,
       "endpoints": [
-        "https://gist.github.com/Ripwords/36f76fb36dab5afdd9df433b69d75698/raw"
+        "https://gist.githubusercontent.com/Ripwords/038c0d077d23a9970ac4b972f525c29d/raw"
       ],
-      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEY2OTYwNjlBODQzOEM0NTEKUldSUnhEaUVtZ2FXOXVDcitBMVdKVE9WVEdEKzVNcEVjWHpYSWt1Zzc1WWFGOUxBK3JUZTFQRDUK"
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDg5RDEzMEFFQTI3MDMyODUKUldTRk1uQ2lyakRSaVZxaFNaRjc1T2hYZzhubjlpN09YMGdwK0tTYk84bjNRcnVDbG1BTkFJLzEK"
     },
     "allowlist": {
       "all": true
     },
     "windows": [
       {
-        "title": "windowReader",
+        "title": "Traverse",
         "width": 800,
         "height": 600,
         "resizable": true,
