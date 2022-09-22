@@ -62,11 +62,12 @@
         "resizable": true,
         "fullscreen": false,
         "transparent": true,
-        "decorations": false
+        "decorations": false,
+        "visible": false
       }
     ],
     "security": {
-      "csp": "default-src blob: data: filesystem: ws: wss: http: https: tauri: 'unsafe-eval' 'unsafe-inline' 'self' img-src: 'self'"
+      "csp": null
     }
   }
 }
