@@ -1,5 +1,5 @@
 # Traverse
-#### Simple notepad like app that can be transparent
+#### Simple notepad with adjustable transparency
 
 <p align="center">
   <img src="https://github.com/Ripwords/Traverse/blob/Traverse-v1.0.0/src-tauri/icons/128x128.png?raw=true" />
