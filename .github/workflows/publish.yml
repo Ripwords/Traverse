@@ -6,6 +6,7 @@ on:
     paths-ignore:
       - '**.md'
       - '**.yml'
+      - '**.png'
       
 env:
   TAURI_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
